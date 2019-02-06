@@ -261,7 +261,7 @@ module.exports = function(plop) {
       },
       {
         type: 'add',
-        path: path.resolve(process.cwd(), 'src/globals/variable.css'),
+        path: path.resolve(process.cwd(), 'src/globals/variables.css'),
         templateFile: path.resolve(__dirname, 'templates/variables.hbs'),
         force: true,
       },

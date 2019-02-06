@@ -45,10 +45,10 @@ window.ready(function() {
   });
   clientWs.addEventListener('message', function(event) {
     var data = JSON.parse(event.data);
-    if (data.buildResults && data.buildResults.diagnostics.length === 0) {
-      window.location.reload(true);
+    if (data.buildResults) {
+      // Show error modal
       return;
     }
-    console.log('message', this, data.buildResults);
+    console.log('message', data);
   });
 });

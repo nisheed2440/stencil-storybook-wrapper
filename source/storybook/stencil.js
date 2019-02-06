@@ -1,4 +1,8 @@
 /**
+ * CAUTION: DO NOT MODIFY THIS FILE
+ * .storybook/stencil.js
+ */
+/**
  * Import the custom addon for adding assets to the manager head.
  */
 import withAssets from '../stencil-utilities/addon-assets';
