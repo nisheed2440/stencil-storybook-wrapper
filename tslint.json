@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "tslint:latest",
+    "tslint-config-airbnb-base",
+    "tslint-react",
+    "tslint-config-prettier",
+    "tslint-plugin-prettier"
+  ],
+  "rules": {
+    "prettier": true,
+    "semicolon": true,
+    "no-submodule-imports": false,
+    "member-access": false,
+    "object-literal-sort-keys":false,
+  }
+}

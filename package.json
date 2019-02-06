@@ -1,0 +1,80 @@
+{
+  "name": "stencil-storybook-wrapper",
+  "version": "1.0.0",
+  "description": "A node module to update a stencil and storybook/html project to make it compatible",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean:before": "del build dist .bin bin",
+    "clean:after": "del dist/stencil-utilities/index.*",
+    "build": "npm-run-all clean:before build:main clean:after",
+    "build:main": "webpack"
+  },
+  "keywords": [
+    "stencil",
+    "storybook",
+    "typescript",
+    "wrapper"
+  ],
+  "bin": {
+    "stencil-storybook-wrapper": ".bin/stencil-wrapper.js"
+  },
+  "author": "Nisheed Jagadish",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^5.13.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.16.4",
+    "ts-loader": "^5.3.3",
+    "tslint": "^5.12.1",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-config-airbnb-base": "^0.2.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-immutable": "^5.1.2",
+    "tslint-plugin-prettier": "^2.0.1",
+    "tslint-react": "^3.6.0",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.3.1"
+  },
+  "dependencies": {
+    "@stencil/core": "^0.17.1",
+    "@storybook/addons": "^4.1.11",
+    "@storybook/html": "^4.1.11",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^10.12.21",
+    "copy-webpack-plugin": "^4.6.0",
+    "cross-env": "^5.2.0",
+    "del-cli": "^1.1.0",
+    "global": "^4.3.2",
+    "npm-run-all": "^4.1.5",
+    "plop": "^2.2.0",
+    "shell-exec": "^1.0.2",
+    "shelljs": "^0.8.3",
+    "webpack": "^4.29.1",
+    "webpack-cli": "^3.2.3"
+  },
+  "stencil": {
+    "protocol": "http",
+    "host": "localhost",
+    "port": 3333,
+    "buildDir": "build"
+  },
+  "storybook": {
+    "protocol": "http",
+    "host": "localhost",
+    "port": 6007
+  },
+  "stencilScripts": {
+    "clean": "del-cli dist storybook-static",
+    "build": "npm-run-all clean build:stencil build:storybook",
+    "build:stencil": "STENCIL_ENV=prod stencil build --docs",
+    "build:storybook": "build-storybook",
+    "start": "npm-run-all --parallel stencil storybook",
+    "stencil": "cross-env STENCIL_ENV=dev stencil build --dev --watch --serve --docs",
+    "storybook": "start-storybook -p 6007 -s ./stencil-utilities/public-assets",
+    "postinstall": "npm run build:stencil",
+    "generate": "plop"
+  }
+}

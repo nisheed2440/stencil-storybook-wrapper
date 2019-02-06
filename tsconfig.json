@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "outDir": "./dist/",
+    "moduleResolution": "node",
+    "module": "commonjs",
+    "declaration": false,
+    "inlineSourceMap": false,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "lib": ["es2017"],
+    "types": ["node", "jest"],
+    "typeRoots": ["node_modules/@types", "source/types"],
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@root-path/*": ["*"]
+    },
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react",
+    "jsxFactory": "h"
+  },
+  "include": ["source"],
+  "exclude": ["node_modules/**", "dist/**", "build/**"],
+  "compileOnSave": false
+}
