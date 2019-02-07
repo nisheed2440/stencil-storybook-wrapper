@@ -1,0 +1,27 @@
+# Ignore files while publishing the module
+#tests
+test
+coverage
+
+#build tools
+.travis.yml
+.jenkins.yml
+.codeclimate.yml
+
+#linters
+.jscsrc
+.jshintrc
+.eslintrc*
+tslint.json
+
+#editor settings
+.idea
+.editorconfig
+.prettierrc
+
+#Source files
+source
+tsconfig.json
+
+#Build files
+webpack.config.js

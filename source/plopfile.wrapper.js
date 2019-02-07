@@ -271,6 +271,12 @@ module.exports = function(plop) {
         templateFile: path.resolve(__dirname, 'plopfile.stencil.js'),
         force: true,
       },
+      {
+        type: 'add',
+        path: path.resolve(process.cwd(), 'src/index.html'),
+        templateFile: path.resolve(__dirname, 'templates/index.hbs'),
+        force: true,
+      },
       commandLog('Stencil Storybook Wrapper - End!'),
       {
         type: 'NPM_INSTALL',
