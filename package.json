@@ -73,13 +73,14 @@
   },
   "stencilScripts": {
     "clean": "del-cli dist storybook-static",
-    "build": "npm-run-all clean build:stencil build:storybook",
+    "build": "npm-run-all clean build:stencil build:storybook post:build",
     "build:stencil": "STENCIL_ENV=prod stencil build --docs",
     "build:storybook": "build-storybook",
     "start": "npm-run-all --parallel stencil storybook",
     "stencil": "cross-env STENCIL_ENV=dev stencil build --dev --watch --serve --docs",
     "storybook": "start-storybook -p 6007 -s ./stencil-utilities/public-assets",
     "postinstall": "npm run build:stencil",
-    "generate": "plop"
+    "generate": "plop",
+    "post:build": "node ./stencil-utilities/post-build.js"
   }
 }
