@@ -1,0 +1,9 @@
+export const RECONNECT_ATTEMPTS = 500;
+export const RECONNECT_RETRY_MS = 2500;
+export const NORMAL_CLOSURE_CODE = 1000;
+export const YELLOW = '#f39c12';
+export const RED = '#c0392b';
+export const BLUE = '#3498db';
+export const GRAY = '#717171';
+export const DEV_SERVER_PREFIX = 'stencil-dev';
+export const DEV_SERVER_MODAL = `${DEV_SERVER_PREFIX}-server-modal`;
