@@ -13,6 +13,7 @@ coverage
 .jshintrc
 .eslintrc*
 tslint.json
+.eslintignore
 
 #editor settings
 .idea
