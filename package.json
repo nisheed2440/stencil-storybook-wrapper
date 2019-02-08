@@ -21,11 +21,16 @@
   "author": "Nisheed Jagadish",
   "license": "ISC",
   "devDependencies": {
+    "@stencil/core": "^0.17.1",
+    "@storybook/addons": "^4.1.11",
+    "@storybook/html": "^4.1.11",
     "css-loader": "^2.1.0",
+    "copy-webpack-plugin": "^4.6.0",
     "eslint": "^5.13.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-prettier": "^3.0.1",
+    "global": "^4.3.2",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.5.0",
@@ -41,24 +46,16 @@
     "tslint-plugin-prettier": "^2.0.1",
     "tslint-react": "^3.6.0",
     "typedoc": "^0.14.2",
-    "typescript": "^3.3.1"
-  },
-  "dependencies": {
-    "@stencil/core": "^0.17.1",
-    "@storybook/addons": "^4.1.11",
-    "@storybook/html": "^4.1.11",
-    "@types/jest": "^24.0.0",
-    "@types/node": "^10.12.21",
-    "copy-webpack-plugin": "^4.6.0",
-    "cross-env": "^5.2.0",
-    "del-cli": "^1.1.0",
-    "global": "^4.3.2",
-    "npm-run-all": "^4.1.5",
-    "plop": "^2.2.0",
-    "shell-exec": "^1.0.2",
-    "shelljs": "^0.8.3",
+    "typescript": "^3.3.1",
     "webpack": "^4.29.1",
     "webpack-cli": "^3.2.3"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "cross-env": "^5.2.0",
+    "del-cli": "^1.1.0",
+    "npm-run-all": "^4.1.5",
+    "plop": "^2.2.0"
   },
   "stencil": {
     "protocol": "http",
@@ -74,13 +71,17 @@
   "stencilScripts": {
     "clean": "del-cli dist storybook-static",
     "build": "npm-run-all clean build:stencil build:storybook post:build",
-    "build:stencil": "STENCIL_ENV=prod stencil build --docs",
+    "build:stencil": "cross-env STENCIL_ENV=prod stencil build --docs",
     "build:storybook": "build-storybook",
     "start": "npm-run-all --parallel stencil storybook",
     "stencil": "cross-env STENCIL_ENV=dev stencil build --dev --watch --serve --docs",
     "storybook": "start-storybook -p 6007 -s ./stencil-utilities/public-assets",
-    "postinstall": "npm run build:stencil",
+    "prestart": "npm run build:stencil",
     "generate": "plop",
     "post:build": "node ./stencil-utilities/post-build.js"
-  }
+  },
+  "engines": {
+    "node": ">=7.6"
+  },
+  "engineStrict": true
 }

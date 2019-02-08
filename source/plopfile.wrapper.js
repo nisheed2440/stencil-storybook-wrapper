@@ -1,6 +1,24 @@
 const fs = require('fs');
 const path = require('path');
-const shellExec = require('shell-exec');
+const spawn = require('child_process').spawn;
+const chalk = require('chalk');
+
+const additionalDependencies = ['-D', '@types/jest', '@types/node', 'copy-webpack-plugin'];
+const blacklistedDependencies = ['chalk'];
+
+function spawnPromise(cmd, args, label = '') {
+  return new Promise((resolve, reject) => {
+    const child = spawn(cmd, args, { stdio: 'inherit' });
+    child.on('error', reject);
+    child.on('exit', (err, signal) => {
+      if (!err) {
+        resolve(`${label ? label + ': - ' : '- '}${chalk.green('DONE!')}`);
+        return;
+      }
+      reject(`${label ? label + ': -' : '-'}\nError Code:${err}\n${signal}`);
+    });
+  });
+}
 
 /**
  * Function to log messages to the command line
@@ -102,28 +120,26 @@ module.exports = function(plop) {
    * Add storybook with html support
    */
   plop.setActionType('ADD_STORYBOOK', async () => {
-    return new Promise((resolve, reject) => {
-      shellExec('npx -p @storybook/cli sb init --type html')
-        .then(() => resolve(' - Added storybook!'))
-        .catch(() => reject(' - Error installing storybook!'));
-    });
+    return spawnPromise('npx', ['-p', '@storybook/cli', 'sb', 'init', '--type', 'html']);
   });
   /**
    * Install NPM packages
    */
   plop.setActionType('NPM_INSTALL', async () => {
-    return new Promise((resolve, reject) => {
-      shellExec('npm install')
-        .then(() => resolve(' - Added modules!'))
-        .catch(() => reject(' - Error installing modules!'));
-    });
+    return spawnPromise('npm', ['install']);
+  });
+  /**
+   * Install NPM additional packages
+   */
+  plop.setActionType('NPM_INSTALL_ADDITIONAL', async () => {
+    return spawnPromise('npm', ['install'].concat(additionalDependencies));
   });
   /**
    * Create custom plop action to update the destination tsconfig.json file.
    */
   plop.setActionType('UPDATE_TSCONFIG', async () => {
     // Get the destination tsconfig.json file
-    var destTsConfigJson = await getDestTsConfigJsonFile();
+    const destTsConfigJson = await getDestTsConfigJsonFile();
     // Add custom objects
     destTsConfigJson.compilerOptions['resolveJsonModule'] = true;
     destTsConfigJson.compilerOptions['esModuleInterop'] = true;
@@ -149,19 +165,17 @@ module.exports = function(plop) {
    */
   plop.setActionType('UPDATE_PACKAGE', async () => {
     // Get the source package.json file
-    var srcPackageJson = await getSrcPackageJsonFile();
+    const srcPackageJson = await getSrcPackageJsonFile();
     // Get the destination package.json file
-    var destPackageJson = await getDestPackageJsonFile();
+    let destPackageJson = await getDestPackageJsonFile();
     // Get the package dependencies object
-    var dependencies = srcPackageJson.dependencies;
+    const dependencies = srcPackageJson.dependencies;
     // Get the package scripts object
-    var npmScripts = srcPackageJson.stencilScripts;
+    const npmScripts = srcPackageJson.stencilScripts;
     // Package dependency names as array, removing unwanted packages from going into the destination file
-    var sPD = Object.keys(dependencies).filter(
-      (k) => ['shelljs', 'chalk', 'shell-exec'].indexOf(k) === -1,
-    );
+    const sPD = Object.keys(dependencies).filter((k) => blacklistedDependencies.indexOf(k) === -1);
     // NPM scripts to be updated in the destination package.json
-    var sPS = Object.keys(npmScripts);
+    const sPS = Object.keys(npmScripts);
 
     for (let i = 0; i < sPD.length; i++) {
       const k = sPD[i];
@@ -277,9 +291,11 @@ module.exports = function(plop) {
         templateFile: path.resolve(__dirname, 'templates/index.hbs'),
         force: true,
       },
-      commandLog('Stencil Storybook Wrapper - End!'),
       {
         type: 'NPM_INSTALL',
+      },
+      {
+        type: 'NPM_INSTALL_ADDITIONAL',
       },
     ],
   });
