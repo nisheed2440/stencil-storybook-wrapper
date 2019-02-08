@@ -20,6 +20,6 @@
     "jsxFactory": "h"
   },
   "include": ["source"],
-  "exclude": ["node_modules/**", "dist/**", "build/**"],
+  "exclude": ["node_modules/**", "source/plop/**" ,"dist/**", "build/**"],
   "compileOnSave": false
 }

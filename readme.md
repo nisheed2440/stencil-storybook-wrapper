@@ -6,25 +6,55 @@ It works by hooking into the stencil dev server during development, listenig to 
 During production builds for storybook, the output of the stencil build is moved to the `storybook-static` folder and resources requests updated so that the storybook can be deployed.
 
 ---
-#### **NOTE: TO BE USED WITH VANNILA STENCIL APPS**
+#### **NOTE: TO BE USED WITH VANNILA STENCIL COMPONENT PROJECT**
 
-Using this with a stencil app already modifed by you could lead to un-necessary side effects. 
+Using this with a stencil project already modifed by you could lead to un-necessary side effects. 
 
 ----
 
+## Prerequisites
+Create a stencil project of the type __*component*__ using the [getting started docs](https://stenciljs.com/docs/getting-started#starting-a-new-project).
+
 ## Installation
+
 Install it globally
 ```
-npm i -g stencil-storybook-wrapper
+$ npm i -g stencil-storybook-wrapper
+$ cd my-awesome-stencil-app
+$ stencil-storybook-wrapper
 ```
 OR
 
 Use it via NPX
 ```
+$ cd my-awesome-stencil-app
 npx stencil-storybook-wrapper
 ```
 
 ## Usage
+
+### Start Storybook
+```
+$ npm run start
+```
+### Build Stencil & Storybook
+- Stencil built to `dist` folder
+- Storybook built to `storybook-static` folder
+```
+$ npm run build
+```
+### Create component
+The wrapper adds a tiny [plopjs](https://plopjs.com/) component generator which can be used to create new stencil components. Components created by the generator have all the necessary scaffolding and story file to get to started.
+```
+$ npm run generate
+```
+and follow the instructions. Modify the `plopfile.js` and the add/update `plop/templates` to create `atoms`, `molecules` or `organism` type components.
+
+### Build Stencil
+- Storybook built to `storybook-static` folder
+```
+$ npm run build:stencil
+```
 
 The following npm scrips are added to your package.json
 
@@ -53,12 +83,14 @@ The following npm scrips are added to your package.json
     // Always use this after `stencil`
     "storybook": "start-storybook -p 6007 -s ./stencil-utilities/public-assets",
 
-    // Run initial build after install to test integrity
-    "postinstall": "npm run build:stencil",
+    // Run initial build before starting the dev server
+    // Needed for readme addon
+    "prestart": "npm run build:stencil",
 
     // Component generator for stencil components
     "generate": "plop"
 }
 ```
 
-### **READ ME TO BE UPDATED SOON...**
+Please raise any issues you have while using this wrapper. Any help would also be appreciated.
+### **More documentation to come...**
