@@ -7,7 +7,8 @@
     "clean:before": "del build dist .bin bin",
     "clean:after": "del dist/stencil-utilities/index.*",
     "build": "npm-run-all clean:before build:main clean:after",
-    "build:main": "webpack"
+    "build:main": "webpack",
+    "prepublish": "npm run build"
   },
   "keywords": [
     "stencil",
