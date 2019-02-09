@@ -1,10 +1,13 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const spawn = require('child_process').spawn;
 const chalk = require('chalk');
 
-const additionalDependencies = ['-D', '@types/jest', '@types/node', 'copy-webpack-plugin'];
-const blacklistedDependencies = ['chalk'];
+// Additional dependencies array to be installed as devDependencies after storybook init
+// Kept separate to reduce time install during initial npx usage
+const additionalDependencies = ['-D', '@types/jest', '@types/node'];
+// Remove un-necessary devDependencies array
+const blacklistedDependencies = [];
 
 function spawnPromise(cmd, args, label = '') {
   return new Promise((resolve, reject) => {
@@ -57,64 +60,17 @@ function addToScripts(packageJson, name, npmScript) {
 function addToPkg(packageJson, name, data) {
   packageJson[name] = data;
 }
-/**
- * Function to get the package.json file of the destination.
- */
-async function getSrcPackageJsonFile() {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path.resolve(__dirname, '../package.json'), 'utf8', (err, data) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(JSON.parse(data));
-    });
-  });
-}
-/**
- * Function to get the package.json file of the destination.
- */
-async function getDestPackageJsonFile() {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path.resolve(process.cwd(), 'package.json'), 'utf8', (err, data) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(JSON.parse(data));
-    });
-  });
-}
-
-/**
- * Function to get the tsconfig.json file of the destination.
- */
-async function getDestTsConfigJsonFile() {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path.resolve(process.cwd(), 'tsconfig.json'), 'utf8', (err, data) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(JSON.parse(data));
-    });
-  });
-}
 
 module.exports = function(plop) {
   /**
    * Check if storybook exists
    */
   plop.setActionType('CHECK_STORYBOOK', async () => {
-    return new Promise((resolve, reject) => {
-      fs.exists(path.resolve(process.cwd(), '.storybook'), (exists) => {
-        if (exists) {
-          reject(' - Storybook already initialize, Aborting!');
-        } else {
-          resolve(' - Check complete!');
-        }
-      });
-    });
+    const exists = await fs.pathExists(path.resolve(process.cwd(), '.storybook'));
+    if (exists) {
+      return Promise.reject(' - Storybook already initialize, Aborting!');
+    }
+    return Promise.resolve(' - Check complete!');
   });
   /**
    * Add storybook with html support
@@ -139,25 +95,14 @@ module.exports = function(plop) {
    */
   plop.setActionType('UPDATE_TSCONFIG', async () => {
     // Get the destination tsconfig.json file
-    const destTsConfigJson = await getDestTsConfigJsonFile();
+    const destTsConfigJson = await fs.readJSON(path.resolve(process.cwd(), 'tsconfig.json'));
     // Add custom objects
     destTsConfigJson.compilerOptions['resolveJsonModule'] = true;
     destTsConfigJson.compilerOptions['esModuleInterop'] = true;
     destTsConfigJson.include.push('stencil.config.ts', 'plop');
-
-    return new Promise((resolve, reject) => {
-      // Write updated tsconfig.json file to disk
-      fs.writeFile(
-        path.resolve(process.cwd(), 'tsconfig.json'),
-        JSON.stringify(destTsConfigJson, null, 2),
-        (err) => {
-          if (err) {
-            reject(err);
-            return;
-          }
-          resolve(' - Updated tsconfig.json file.');
-        },
-      );
+    // Write the updated tsconfig.json file
+    return fs.writeJson(path.resolve(process.cwd(), 'tsconfig.json'), destTsConfigJson).then(() => {
+      return ' - Updated tsconfig.json file.';
     });
   });
   /**
@@ -165,9 +110,9 @@ module.exports = function(plop) {
    */
   plop.setActionType('UPDATE_PACKAGE', async () => {
     // Get the source package.json file
-    const srcPackageJson = await getSrcPackageJsonFile();
+    const srcPackageJson = await fs.readJson(path.resolve(__dirname, '../package.json'));
     // Get the destination package.json file
-    let destPackageJson = await getDestPackageJsonFile();
+    let destPackageJson = await fs.readJson(path.resolve(process.cwd(), 'package.json'));
     // Get the package dependencies object
     const dependencies = srcPackageJson.dependencies;
     // Get the package scripts object
@@ -191,21 +136,10 @@ module.exports = function(plop) {
 
     // Add custom objects
     addToPkg(destPackageJson, 'stencil', srcPackageJson['stencil']);
-    addToPkg(destPackageJson, 'storybook', srcPackageJson['storybook']);
 
-    return new Promise((resolve, reject) => {
-      // Write updated package.json file to disk
-      fs.writeFile(
-        path.resolve(process.cwd(), 'package.json'),
-        JSON.stringify(destPackageJson, null, 2),
-        (err) => {
-          if (err) {
-            reject(err);
-            return;
-          }
-          resolve(' - Updated package.json file.');
-        },
-      );
+    // Write the updated package.json file
+    return fs.writeJson(path.resolve(process.cwd(), 'package.json'), destPackageJson).then(() => {
+      return ' - Updated package.json file.';
     });
   });
 

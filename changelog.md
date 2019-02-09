@@ -4,7 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.2] - 08-02-2019
+## [1.2.0] - 09-02-2019
+### Added
+- `fs-extra` package to replace `fs` usages.
+
+### Updated
+- readme.md with stencil dev server config doc
+- `post-build.js` updated to copy stencil assets to storybook build folder
+
+### Removed
+- Dependency on `webpack.config.js`
+- Dependency on `copy-webpack-plugin`
+- storybook config in `package.json`
+
+## [1.1.0] - 08-02-2019
 ### Updated
 - plopfile.wrapper.js to use spawn for executing scripts
 - plopfile.wrapper.js to have blacklisted and whitelisted dependencies to be installed in destination module

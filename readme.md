@@ -92,5 +92,21 @@ The following npm scrips are added to your package.json
 }
 ```
 
+## Configure Stencil Dev Server
+The wrapper adds a dev server config object to the `package.json` file. You can use it to configure how the dev server launches.
+```
+"stencil": {
+    // The protocol used by the dev server
+    "protocol": "http",
+    // The host or IP address
+    "host": "localhost",
+    // The port where the dev server is launched
+    "port": 3333,
+    // The buildDir as per https://stenciljs.com/docs/config#www
+    "buildDir": "build"
+},
+```
+
 Please raise any issues you have while using this wrapper. Any help would also be appreciated.
-### **More documentation to come...**
+
+### **More updates to come...**

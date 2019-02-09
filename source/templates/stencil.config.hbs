@@ -80,6 +80,7 @@ export const config: Config = {
        * We need resolve the relative paths on `stencil devServer`.
        */
       resourcesUrl: getResourcesURL(protocol as Protocol, host, port, name, buildDir),
+      buildDir
     },
   ],
   globalStyle: 'src/globals/variables.css',
