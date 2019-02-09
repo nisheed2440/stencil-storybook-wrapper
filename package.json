@@ -1,6 +1,6 @@
 {
   "name": "stencil-storybook-wrapper",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A node module to update a stencil and storybook/html project to make it compatible",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -55,6 +55,7 @@
     "chalk": "^2.4.2",
     "cross-env": "^5.2.0",
     "del-cli": "^1.1.0",
+    "fs-extra": "^7.0.1",
     "npm-run-all": "^4.1.5",
     "plop": "^2.2.0"
   },
@@ -63,11 +64,6 @@
     "host": "localhost",
     "port": 3333,
     "buildDir": "build"
-  },
-  "storybook": {
-    "protocol": "http",
-    "host": "localhost",
-    "port": 6007
   },
   "stencilScripts": {
     "clean": "del-cli dist storybook-static",
@@ -84,5 +80,13 @@
   "engines": {
     "node": ">=7.6"
   },
-  "engineStrict": true
+  "engineStrict": true,
+  "homepage": "https://github.com/nisheed2440/stencil-storybook-wrapper",
+  "bugs": {
+    "url": "https://github.com/nisheed2440/stencil-storybook-wrapper/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nisheed2440/stencil-storybook-wrapper.git"
+  }
 }
