@@ -67,6 +67,8 @@
   },
   "stencilScripts": {
     "clean": "del-cli dist storybook-static",
+    "test": "cross-env STENCIL_ENV=dev stencil test --spec --e2e",
+    "test.watch": "cross-env STENCIL_ENV=dev stencil test --spec --e2e --watchAll",
     "build": "npm-run-all clean build:stencil build:storybook post:build",
     "build:stencil": "cross-env STENCIL_ENV=prod stencil build --docs",
     "build:storybook": "build-storybook",
