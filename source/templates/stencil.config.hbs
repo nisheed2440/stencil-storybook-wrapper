@@ -4,6 +4,7 @@
  */
 // Needed for type issue with TS for protocol option in devServer
 import { Config } from '@stencil/core';
+import kebabCase from 'lodash.kebabcase';
 
 type Protocol = 'http' | 'https';
 type Port = number;
@@ -48,6 +49,9 @@ export const getResourcesURL = (
  */
 import { name, stencil } from './package.json';
 
+// Fix for scoped package names
+const normalizedPkgName = kebabCase(name);
+
 // Assign defaults when importing from package.json
 const { host = 'localhost', port = 3333, protocol = 'http', buildDir = 'build' }: IstencilPkg = stencil as IstencilPkg;
 
@@ -58,7 +62,7 @@ const { host = 'localhost', port = 3333, protocol = 'http', buildDir = 'build' }
  * The othe options on the config object can be updated by you as per need.
  */
 export const config: Config = {
-  namespace: name,
+  namespace: normalizedPkgName,
   devServer: {
     address: host as Address,
     port: port as Port,
@@ -79,7 +83,7 @@ export const config: Config = {
        * Since we are using the `stencil devServer` to serve the output files to `storybooks' devServer`,
        * We need resolve the relative paths on `stencil devServer`.
        */
-      resourcesUrl: getResourcesURL(protocol as Protocol, host, port, name, buildDir),
+      resourcesUrl: getResourcesURL(protocol as Protocol, host, port, normalizedPkgName, buildDir),
       buildDir
     },
   ],

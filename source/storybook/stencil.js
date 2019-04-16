@@ -6,6 +6,7 @@
  * Import the custom addon for adding assets to the manager head.
  */
 import withAssets from '../stencil-utilities/addon-assets';
+import kebabCase from 'lodash.kebabcase';
 
 // Constants for the file
 const DEFAULT_NAME = 'my-component';
@@ -23,18 +24,22 @@ const {
   protocol = DEFAULT_PROTOCOL,
   buildDir = DEFAULT_BUILD_DIR,
 } = stencil;
+
+// Fix for scoped package names
+const normalizedPkgName = kebabCase(name);
+
 /**
  * Function to get the stencil resources
  */
 const getStencilResources = () => ({
   'components-css':
     process.env.NODE_ENV === 'development'
-      ? `${protocol}://${host}:${port}/${buildDir}/${name}.css`
-      : `/${buildDir}/${name}.css`,
+      ? `${protocol}://${host}:${port}/${buildDir}/${normalizedPkgName}.css`
+      : `/${buildDir}/${normalizedPkgName}.css`,
   'component-js':
     process.env.NODE_ENV === 'development'
-      ? `${protocol}://${host}:${port}/${buildDir}/${name}.js`
-      : `/${buildDir}/${name}.js`,
+      ? `${protocol}://${host}:${port}/${buildDir}/${normalizedPkgName}.js`
+      : `/${buildDir}/${normalizedPkgName}.js`,
 });
 /**
  * With assets custom decorator
