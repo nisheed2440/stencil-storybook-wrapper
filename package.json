@@ -1,6 +1,6 @@
 {
   "name": "stencil-storybook-wrapper",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "description": "A node module to update a stencil and storybook/html project to make it compatible",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

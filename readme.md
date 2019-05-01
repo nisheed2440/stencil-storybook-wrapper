@@ -1,7 +1,7 @@
 # Stencil Storybook Wrapper
 This module provides a wrapper to interoperate stencil created app with storybook. 
 
-It works by hooking into the stencil dev server during development, listenig to the websocket during HMR(Hot Module Replacement) and showing the errors or reloading the stencil generated resources.
+It works by hooking into the stencil dev server during development, listening to the websocket during HMR(Hot Module Replacement) and showing the errors or reloading the stencil generated resources.
 
 During production builds for storybook, the output of the stencil build is moved to the `storybook-static` folder and resources requests updated so that the storybook can be deployed.
 
@@ -13,7 +13,9 @@ Using this with a stencil project already modifed by you could lead to un-necess
 ----
 
 ## Prerequisites
-Create a stencil project of the type __*component*__ using the [getting started docs](https://stenciljs.com/docs/getting-started#starting-a-new-project).
+Create a stencil project of the type __*component*__ using the [getting started docs](https://stenciljs.com/docs/getting-started#starting-a-new-project**.
+
+**Note: If using Sass you will also need [stencil sass](https://www.npmjs.com/package/@stencil/sass) installed.**
 
 ## Installation
 
