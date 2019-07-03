@@ -25,6 +25,13 @@ const getOrCreateElement = (id, src) => {
   //   Check is string is JS
   if (src.match(/(.js)$/gi)) {
     element = document.createElement('script');
+
+    if (src.match(/(.esm.js)$/gi)) {
+      element.setAttribute('type', 'module')
+    } else {
+      element.setAttribute('nomodule', '')
+    }
+
     element.src = src;
   }
   //   Check is string is CSS

@@ -40,6 +40,10 @@ const getStencilResources = () => ({
     process.env.NODE_ENV === 'development'
       ? `${protocol}://${host}:${port}/${buildDir}/${normalizedPkgName}.js`
       : `/${buildDir}/${normalizedPkgName}.js`,
+  'component-js-module':
+    process.env.NODE_ENV === 'development'
+      ? `${protocol}://${host}:${port}/${buildDir}/${normalizedPkgName}.esm.js`
+      : `/${buildDir}/${normalizedPkgName}.esm.js`,
 });
 /**
  * With assets custom decorator
