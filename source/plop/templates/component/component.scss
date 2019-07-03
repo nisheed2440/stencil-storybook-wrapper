@@ -1,0 +1,19 @@
+// TemplateComponent Variable Map
+$template-component-vars: (
+    color: red
+);
+
+// TemplateComponent CSS Variable Reference
+@function template-component-var($name) {
+    @return var(--template-component-#{$name});
+}
+
+.template-component {
+    // Convert Sass Variable Map to CSS Variables
+    @each $key, $value in $template-component-vars {
+        --template-component-#{$key}: #{$value};
+    }
+
+    // TemplateComponent Styles
+    color: template-component-var(color);
+}

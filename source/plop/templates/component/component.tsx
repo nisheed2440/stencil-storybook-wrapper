@@ -12,6 +12,6 @@ export class TemplateComponent {
   @Prop() test: string = 'Hello World';
 
   render() {
-    return <div class="template-component">{this.test}</div>;
+    return (<div class="template-component">{this.test}</div>);
   }
 }
